@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Práctico COW</title>
+
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+
+    <script>
+        Mercadopago.setPublishableKey("TEST-fa3df814-5802-4c80-ab20-29e6b71c5178");
+        Mercadopago.getIdentificationTypes();
+    </script>
+
+</head>
+<body>
+<!--<noscript>You need to enable JavaScript to run this app.</noscript>-->
+<div id="root"></div>
+
+<script type="text/javascript">
+    (function () {
+        function $MPC_load() {
+            window.$MPC_loaded !== true && (function () {
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+                window.$MPC_loaded = true;
+            })();
+        }
+
+        window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
+    })();
+</script>
+
+<form action="http://localhost:8080/practico/procesar-pago" method="POST">
+    <h3>Punto 4</h3>
+    <script
+            src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
+            data-public-key="TEST-fa3df814-5802-4c80-ab20-29e6b71c5178"
+            data-transaction-amount="100.00">
+    </script>
+</form>
+
+<div id="divPunto5">
+    <h3>Punto 5</h3>
+</div>
+
+<!--
+  This HTML file is a template.
+  If you open it directly in the browser, you will see an empty page.
+
+  You can add webfonts, meta tags, or analytics to this file.
+  The build step will place the bundled scripts into the <body> tag.
+
+  To begin the development, run `npm start` or `yarn start`.
+  To create a production bundle, use `npm run build` or `yarn build`.
+-->
+</body>
+
+<script>
+    var cardNumberInput = document.querySelector('#cardNumber');
+    cardNumberInput.addEventListener("keyup", guessingPaymentMethod);
+
+    function getBin(event) {
+        if (event) {
+            return event.target.value;
+        } else {
+            return null
+        }
+    }
+
+    function guessingPaymentMethod(event) {
+        //var bin = getBin(event);
+        var bin = document.getElementById("cardNumber").value;
+
+        if (event.type == "keyup") {
+            if (bin.length >= 6) {
+                Mercadopago.getPaymentMethod({
+                    "bin": bin
+                }, setPaymentMethodInfo);
+            }
+        } else {
+            setTimeout(function () {
+                if (bin.length >= 6) {
+                    Mercadopago.getPaymentMethod({
+                        "bin": bin
+                    }, setPaymentMethodInfo);
+                }
+            }, 100);
+        }
+
+        Mercadopago.getInstallments({
+            "bin": bin,
+            "amount": 5000
+        }, setInstallmentInfo);
+    };
+
+    function setPaymentMethodInfo(status, response) {
+        if (status == 200) {
+            var paymentMethod = document.querySelector("#paymentMethodId");
+            paymentMethod.setAttribute('name', "paymentMethodId");
+            paymentMethod.setAttribute('type', "hidden");
+            paymentMethod.setAttribute('value', response[0].id);
+
+            //form.appendChild(paymentMethod);
+            document.querySelector("input[name=paymentMethodId]").value = response[0].id;
+        }
+    };
+
+    function setInstallmentInfo(status, response) {
+        if (status == 200) {
+            var installments = document.querySelector("#installments");
+            for (var i=0; i < response[0].payer_costs.length; i++) {
+                var opt = document.createElement("option");
+                installments.options[i] = new Option(response[0].payer_costs[i].recommended_message,
+                    response[0].payer_costs[i].installments);
+            }
+        }
+    };
+
+    doSubmit = false;
+    var form = document.querySelector('#pay');
+    form.addEventListener('submit', doPay);
+    function doPay(event){
+        event.preventDefault();
+        if(!doSubmit){
+            var $form = document.querySelector('#pay');
+
+            Mercadopago.createToken($form, sdkResponseHandler); // The function "sdkResponseHandler" is defined below
+
+            return false;
+        }
+    };
+
+    function sdkResponseHandler(status, response) {
+        if (status != 200 && status != 201) {
+            alert("verify filled data");
+        }else{
+            var form = document.querySelector('#pay');
+            var card = document.createElement('input');
+            card.setAttribute('name', 'token');
+            card.setAttribute('type', 'hidden');
+            card.setAttribute('value', response.id);
+            form.appendChild(card);
+            doSubmit=true;
+            form.submit();
+        }
+    };
+</script>
+
+</html>

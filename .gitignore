@@ -1,0 +1,29 @@
+#Frontend
+# dependencies
+/practico-cow-frontend/node_modules
+/practico-cow-frontend/.pnp
+/practico-cow-frontend/.pnp.js
+
+# testing
+/practico-cow-frontend/coverage
+
+# production
+/practico-cow-frontend/build
+
+# misc
+/practico-cow-frontend/.DS_Store
+/practico-cow-frontend/.env.local
+/practico-cow-frontend/.env.development.local
+/practico-cow-frontend/.env.test.local
+/practico-cow-frontend/.env.production.local
+
+/practico-cow-frontend/npm-debug.log*
+/practico-cow-frontend/yarn-debug.log*
+/practico-cow-frontend/yarn-error.log*
+
+#Backend
+/practico-cow-backend/build/
+/practico-cow-backend/out/
+/practico-cow-backend/.gradle/
+/practico-cow-backend/.idea/
+/practico-cow-backend/out/
