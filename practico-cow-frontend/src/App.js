@@ -15,14 +15,14 @@ class App extends Component {
   	                              this.buildPunto5();})
   }
 
-  buildPunto5() {
+  buildPunto5 = () => {
       var script = document.createElement("script");
       script.setAttribute("src", "https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js");
       script.setAttribute("data-preference-id", this.state.preferenceId);
 
       var form = document.createElement("form");
-      form.setAttribute("action", "http://localhost:8080/practico/procesar-pago");
-      form.setAttribute("method", "POST");
+      form.action = "http://localhost:8080/practico/procesar-pago";
+      form.method = "POST";
       form.appendChild(script);
 
       document.getElementById("divPunto5").appendChild(form);
