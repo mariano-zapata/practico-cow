@@ -1,6 +1,6 @@
 package com.mercadolibre.router;
 
-import com.mercadolibre.Utils;
+import com.mercadolibre.util.JsonUtils;
 import spark.Filter;
 
 import static com.mercadolibre.Constants.*;
@@ -16,8 +16,8 @@ public class RestEndpoint {
             response.header("Access-Control-Allow-Methods", "GET");
         });
 
-        get(PATH_PREFERENCIA, PreferenciaRoute::crearPreferencia, Utils.json());
-        post(PATH_PAGO, PagoRoute::recibirPago, Utils.json());
-        post(PATH_PROCESAR_PAGO, PagoRoute::procesarPago, Utils.json());
+        get(PATH_PREFERENCIA, PreferenciaRoute::crearPreferencia, JsonUtils::toJson);
+        post(PATH_PAGO, PagoRoute::recibirPago, JsonUtils::toJson);
+        post(PATH_PROCESAR_PAGO, PagoRoute::procesarPago, JsonUtils::toJson);
     }
 }
