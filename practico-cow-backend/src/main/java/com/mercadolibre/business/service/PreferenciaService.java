@@ -14,15 +14,22 @@ import static com.mercadolibre.Constants.CLIENT_SECRET;
 
 public class PreferenciaService {
 
+    private PreferenciaValidator preferenciaValidator;
+
+    private PreferenceConverter preferenceConverter;
+
+    public PreferenciaService() {
+        preferenciaValidator = new PreferenciaValidator();
+        preferenceConverter = new PreferenceConverter();
+    }
+
     public Preference save(Preferencia preferencia) throws MPException {
         Errors errors = new Errors();
-        PreferenciaValidator preferenciaValidator = new PreferenciaValidator();
         preferenciaValidator.validate(preferencia, errors);
         if (errors.hasErrors()) {
             throw new MPException(buildErrorMessage(errors), null, HttpStatus.SC_BAD_REQUEST);
         }
 
-        PreferenceConverter preferenceConverter = new PreferenceConverter();
         Preference preference = preferenceConverter.convert(preferencia);
         MercadoPago.SDK.setClientId(CLIENT_ID);
         MercadoPago.SDK.setClientSecret(CLIENT_SECRET);
