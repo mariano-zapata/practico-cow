@@ -6,6 +6,15 @@ import static com.mercadolibre.Constants.*;
 
 public class PreferenciaValidator implements Validator<Preferencia> {
 
+    private PagadorValidator pagadorValidator;
+
+    private ProductoValidator productoValidator;
+
+    public PreferenciaValidator() {
+        pagadorValidator = new PagadorValidator();
+        productoValidator = new ProductoValidator();
+    }
+
     @Override
     public void validate(Preferencia source, Errors errors) {
         if (source.getPagador() == null) {
@@ -18,10 +27,8 @@ public class PreferenciaValidator implements Validator<Preferencia> {
             return;
         }
 
-        PagadorValidator pagadorValidator = new PagadorValidator();
         pagadorValidator.validate(source.getPagador(), errors);
 
-        ProductoValidator productoValidator = new ProductoValidator();
         source.getProductos().forEach(producto -> productoValidator.validate(producto, errors));
     }
 }

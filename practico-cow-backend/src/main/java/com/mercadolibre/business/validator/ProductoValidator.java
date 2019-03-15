@@ -22,7 +22,7 @@ public class ProductoValidator implements Validator<Producto> {
             errors.appendError(ERROR_PRODUCTO_MONEDA);
         }
 
-        if (source.getPrecio() == null) {
+        if (source.getPrecio() == null || source.getPrecio() < 0F) {
             errors.appendError(ERROR_PRODUCTO_PRECIO);
         }
     }
