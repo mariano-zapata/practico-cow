@@ -14,6 +14,15 @@ public class Producto {
 
     private Float precio;
 
+    public Producto() {
+        super();
+    }
+
+    public Producto(String id) {
+        this();
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
