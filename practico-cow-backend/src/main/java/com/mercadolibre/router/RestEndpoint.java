@@ -7,12 +7,14 @@ import org.apache.http.HttpStatus;
 import spark.Filter;
 import spark.Request;
 import spark.Response;
+import spark.servlet.SparkApplication;
 
 import static com.mercadolibre.Constants.*;
 import static spark.Spark.*;
 
-public class RestEndpoint {
+public class RestEndpoint implements SparkApplication {
 
+    @Override
     public void init() {
         after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
