@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Ejercicio 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1>Ejercicio 2</h1>
+
+    #if($initpoint)
+    <br>
+    <div id="pay">
+        <br>
+
+        <a href="${initpoint}" name="MP-Checkout" class="green-L-Rn" mp-mode="modal" onreturn="execute_my_onreturn">Modal</a>
+        <a href="${initpoint}" name="MP-Checkout" class="blue-L-Rn" mp-mode="popup">Popup</a>
+        <a href="${initpoint}" name="MP-Checkout" class="orange-L-Rn" mp-mode="blank">Nueva Ventana</a>
+        <a href="${initpoint}" name="MP-Checkout" class="grey-L-Rn" mp-mode="redirect">Misma Ventana</a>
+    </div>
+    <br>
+    <label type="text" id="status" value="Algo"/>
+
+    <script type="text/javascript">
+        (function(){function $MPC_load(){window.$MPC_loaded !== true && (function(){var s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = document.location.protocol+"//secure.mlstatic.com/mptools/render.js";var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);window.$MPC_loaded = true;})();}window.$MPC_loaded !== true ? (window.attachEvent ?window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;})();
+    </script>
+    <script type="text/javascript">
+        function execute_my_onreturn (json) {
+            var message;
+            if (json.collection_status=='approved'){
+                message ='Pago acreditado';
+            } else if(json.collection_status=='pending'){
+                message = 'El usuario no completó el pago';
+            } else if(json.collection_status=='in_process'){
+                message = 'El pago está siendo revisado';
+            } else if(json.collection_status=='rejected'){
+                message = 'El pago fué rechazado, el usuario puede intentar nuevamente el pago';
+            } else if(json.collection_status==null){
+                message = 'El usuario no completó el proceso de pago, no se ha generado ningún pago';
+            }
+
+            document.getElementById('status').innerHTML = message;
+
+        }
+    </script>
+
+    #else
+    <label>preferencia no creada</label>
+
+    #end
+
+</body>
+</html>

@@ -4,6 +4,7 @@ import com.google.common.net.MediaType;
 import com.mercadolibre.business.service.PreferenciaService;
 import com.mercadolibre.model.Preferencia;
 import com.mercadolibre.util.RequestHandler;
+import com.mercadolibre.util.VelocityUtil;
 import com.mercadopago.MercadoPago;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Preference;
@@ -14,6 +15,9 @@ import com.mercadopago.resources.datastructures.preference.Phone;
 import org.apache.http.HttpStatus;
 import spark.Request;
 import spark.Response;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.mercadolibre.Constants.*;
 
@@ -32,8 +36,11 @@ public class PreferenciaRoute {
                 .setPhone(new Phone().setAreaCode("343").setNumber("4617086"))
                 .setAddress(new Address().setStreetName("Urquiza").setStreetNumber(1109).setZipCode("3100"));
 
-        Preference preference = new Preference();
-        return preference.setPayer(payer).appendItem(item).save();
+        Preference preference = new Preference().setPayer(payer).appendItem(item).save();
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("initpoint", preference.getInitPoint());
+        return VelocityUtil.render(model, TEMPLATE_EJERCICIO_2);
     }
 
     public static Object crearPreferenciaPost(Request request, Response response) throws MPException {

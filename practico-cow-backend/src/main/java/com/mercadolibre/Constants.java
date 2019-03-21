@@ -47,5 +47,8 @@ public class Constants {
     // Headers
     public static String HEADER_CONTENT_TYPE = "Content-Type";
 
+    // Templates
+    public static String TEMPLATE_EJERCICIO_2 = "/velocity/ejercicio2.vm";
+
     private Constants() {}
 }
