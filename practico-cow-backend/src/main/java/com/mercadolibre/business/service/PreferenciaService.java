@@ -12,7 +12,7 @@ import org.apache.http.HttpStatus;
 import static com.mercadolibre.Constants.CLIENT_ID;
 import static com.mercadolibre.Constants.CLIENT_SECRET;
 
-public class PreferenciaService {
+public class PreferenciaService extends Service {
 
     private PreferenciaValidator preferenciaValidator;
 
@@ -34,11 +34,5 @@ public class PreferenciaService {
         MercadoPago.SDK.setClientId(CLIENT_ID);
         MercadoPago.SDK.setClientSecret(CLIENT_SECRET);
         return preference.save();
-    }
-
-    private String buildErrorMessage(Errors errors) {
-        StringBuilder message = new StringBuilder();
-        errors.getErrors().forEach(error -> message.append(error).append(". - "));
-        return message.toString();
     }
 }

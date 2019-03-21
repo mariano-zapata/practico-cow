@@ -21,9 +21,10 @@ public class RestEndpoint implements SparkApplication {
             response.header("Access-Control-Allow-Methods", "GET");
         });
 
-        get(PATH_PREFERENCIA, PreferenciaRoute::crearPreferencia);
-        post(PATH_PREFERENCIA,PreferenciaRoute::crearPreferenciaPost, JsonUtils::toJson);
-        post(PATH_PAGO, PagoRoute::recibirPago, JsonUtils::toJson);
+        post(PATH_EJERCICIO_1,PreferenciaRoute::crearPreferenciaPost, JsonUtils::toJson);
+        get(PATH_EJERCICIO_2, PreferenciaRoute::crearPreferencia);
+        get(PATH_EJERCICIO_3, PagoRoute::getRecibirPagoView);
+        post(PATH_EJERCICIO_3_PAGO, PagoRoute::recibirPago, JsonUtils::toJson);
         post(PATH_PROCESAR_PAGO, PagoRoute::procesarPago, JsonUtils::toJson);
 
         exception(MPException.class, RestEndpoint::mpExceptionHandler);
