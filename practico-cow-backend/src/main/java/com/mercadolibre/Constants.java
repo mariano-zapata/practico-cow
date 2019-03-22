@@ -13,7 +13,9 @@ public class Constants {
 
     public static String PATH_EJERCICIO_3_PAGO = PATH_TP + "/pago";
 
-    public static String PATH_PROCESAR_PAGO = PATH_TP + "/procesar-pago";
+    public static String PATH_EJERCICIO_4 = PATH_TP + "/ejercicio4";
+
+    public static String PATH_EJERCICIO_4_PROCESAR_PAGO = PATH_TP + "/procesar-pago";
 
     // Claves
     public static String CLIENT_ID = "3171675646578969";
@@ -68,6 +70,8 @@ public class Constants {
     public static String TEMPLATE_EJERCICIO_2 = "/velocity/ejercicio2.vm";
 
     public static String TEMPLATE_EJERCICIO_3 = "/velocity/ejercicio3.vm";
+
+    public static String TEMPLATE_EJERCICIO_4 = "/velocity/ejercicio4.vm";
 
     private Constants() {}
 }

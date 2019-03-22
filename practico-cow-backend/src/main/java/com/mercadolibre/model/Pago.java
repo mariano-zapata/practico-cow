@@ -14,6 +14,8 @@ public class Pago {
 
     private String emailPagador;
 
+    private String issuerId;
+
     public Float getMonto() {
         return monto;
     }
@@ -65,6 +67,15 @@ public class Pago {
 
     public Pago setEmailPagador(String emailPagador) {
         this.emailPagador = emailPagador;
+        return this;
+    }
+
+    public String getIssuerId() {
+        return issuerId;
+    }
+
+    public Pago setIssuerId(String issuerId) {
+        this.issuerId = issuerId;
         return this;
     }
 }
