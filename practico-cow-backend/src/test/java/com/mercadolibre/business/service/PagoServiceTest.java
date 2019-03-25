@@ -35,7 +35,7 @@ public class PagoServiceTest {
 
         when(paymentConverter.convert(pago)).thenReturn(payment);
 
-        service.saveV1(pago);
+        service.save(pago);
         verify(pagoValidator).validate(eq(pago), any(Errors.class));
         verify(paymentConverter).convert(pago);
         verify(payment).save();
@@ -51,7 +51,7 @@ public class PagoServiceTest {
             return null;
         }).when(pagoValidator).validate(any(Pago.class), any(Errors.class));
 
-        service.saveV1(pago);
+        service.save(pago);
         verify(pagoValidator).validate(eq(pago), any(Errors.class));
         verifyZeroInteractions(paymentConverter);
     }

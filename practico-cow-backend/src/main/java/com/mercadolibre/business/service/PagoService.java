@@ -22,7 +22,7 @@ public class PagoService extends Service {
         paymentConverter = new PaymentConverter();
     }
 
-    public Payment saveV1(Pago pago) throws MPException {
+    public Payment save(Pago pago) throws MPException {
         Errors errors = new Errors();
         pagoValidator.validate(pago, errors);
         if (errors.hasErrors()) {

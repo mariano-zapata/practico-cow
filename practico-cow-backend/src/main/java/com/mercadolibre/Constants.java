@@ -17,6 +17,10 @@ public class Constants {
 
     public static String PATH_EJERCICIO_4_PROCESAR_PAGO = PATH_TP + "/procesar-pago";
 
+    public static String PATH_EJERCICIO_5 = PATH_TP + "/ejercicio5";
+
+    public static String PATH_EJERCICIO_5_ESTADO_PAGO = PATH_TP + "/estado-pago";
+
     // Claves
     public static String CLIENT_ID = "3171675646578969";
 
@@ -45,7 +49,7 @@ public class Constants {
 
     public static String PREFERENCIA_GENERADA = "Preferencia generada. Initpoint: %s";
 
-    // Pago V1
+    // Pago
     public static String ERROR_PAGO_MONTO = "El monto del pago es incorrecto";
 
     public static String ERROR_PAGO_TOKEN = "No se ha recibido el token del pago";
@@ -57,6 +61,8 @@ public class Constants {
     public static String ERROR_PAGO_EMAIL = "Se debe informar el email del pagador";
 
     public static String PAGO_PROCESADO = "Pago procesado. Estado: %s - Detalle: %s";
+
+    public static String PAGO_ESTADO = "Estado del Pago: ID: %s - Status: %s - Detalle: %s";
 
     // Status
     public static String STATUS_OK = "200 - OK";
@@ -72,6 +78,8 @@ public class Constants {
     public static String TEMPLATE_EJERCICIO_3 = "/velocity/ejercicio3.vm";
 
     public static String TEMPLATE_EJERCICIO_4 = "/velocity/ejercicio4.vm";
+
+    public static String TEMPLATE_EJERCICIO_5 = "/velocity/ejercicio5.vm";
 
     private Constants() {}
 }

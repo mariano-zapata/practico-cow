@@ -27,6 +27,8 @@ public class RestEndpoint implements SparkApplication {
         post(PATH_EJERCICIO_3_PAGO, PagoRoute::recibirPago, JsonUtils::toJson);
         get(PATH_EJERCICIO_4, PagoRoute::getProcesarPagoView);
         post(PATH_EJERCICIO_4_PROCESAR_PAGO, PagoRoute::procesarPago, JsonUtils::toJson);
+        get(PATH_EJERCICIO_5, PagoRoute::getEstadoPagoView);
+        post(PATH_EJERCICIO_5_ESTADO_PAGO, PagoRoute::estadoPago, JsonUtils::toJson);
 
         exception(MPException.class, RestEndpoint::mpExceptionHandler);
         exception(Exception.class, RestEndpoint::exceptionHandler);
