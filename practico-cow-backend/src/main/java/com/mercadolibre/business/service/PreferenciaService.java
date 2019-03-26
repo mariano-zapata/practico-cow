@@ -9,6 +9,7 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Preference;
 import org.apache.http.HttpStatus;
 
+import static com.mercadolibre.Constants.STATUS_BAD_REQUEST;
 import static com.mercadolibre.Constants.CLIENT_ID;
 import static com.mercadolibre.Constants.CLIENT_SECRET;
 
@@ -27,7 +28,7 @@ public class PreferenciaService extends Service {
         Errors errors = new Errors();
         preferenciaValidator.validate(preferencia, errors);
         if (errors.hasErrors()) {
-            throw new MPException(buildErrorMessage(errors), null, HttpStatus.SC_BAD_REQUEST);
+            throw buildPracticoException(errors, HttpStatus.SC_BAD_REQUEST, STATUS_BAD_REQUEST);
         }
 
         Preference preference = preferenceConverter.convert(preferencia);

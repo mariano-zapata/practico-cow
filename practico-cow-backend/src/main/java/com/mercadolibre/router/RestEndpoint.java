@@ -2,6 +2,7 @@ package com.mercadolibre.router;
 
 import com.google.common.net.MediaType;
 import com.mercadolibre.util.JsonUtils;
+import com.mercadolibre.util.PracticoException;
 import com.mercadopago.exceptions.MPException;
 import org.apache.http.HttpStatus;
 import spark.Filter;
@@ -31,20 +32,29 @@ public class RestEndpoint implements SparkApplication {
         post(PATH_EJERCICIO_5_ESTADO_PAGO, PagoRoute::estadoPago, JsonUtils::toJson);
 
         exception(MPException.class, RestEndpoint::mpExceptionHandler);
+        exception(PracticoException.class, RestEndpoint::practicoExceptionHandler);
         exception(Exception.class, RestEndpoint::exceptionHandler);
     }
 
     private static void mpExceptionHandler(MPException e, Request request, Response response) {
         response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         response.status(e.getStatusCode());
-        RestEndpointResponse endpointResponse = new RestEndpointResponse(STATUS_ERROR, e.getMessage());
-        response.body(JsonUtils.toJson(endpointResponse));
+        RestEndpointErrorResponse endpointErrorResponse = new RestEndpointErrorResponse(STATUS_ERROR, e.getMessage());
+        response.body(JsonUtils.toJson(endpointErrorResponse));
+    }
+
+    private static void practicoExceptionHandler(PracticoException e, Request request, Response response) {
+        response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
+        response.status(e.getStatusCode());
+        RestEndpointErrorResponse endpointErrorResponse = new RestEndpointErrorResponse(e.getStatusCode().toString(),
+                e.getStatusMessage(), e.getErrors());
+        response.body(JsonUtils.toJson(endpointErrorResponse));
     }
 
     private static void exceptionHandler(Exception e, Request request, Response response) {
         response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        RestEndpointResponse endpointResponse = new RestEndpointResponse(STATUS_ERROR, e.getMessage());
-        response.body(JsonUtils.toJson(endpointResponse));
+        RestEndpointErrorResponse endpointErrorResponse = new RestEndpointErrorResponse(STATUS_ERROR, e.getMessage());
+        response.body(JsonUtils.toJson(endpointErrorResponse));
     }
 }

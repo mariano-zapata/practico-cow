@@ -10,6 +10,7 @@ import com.mercadopago.resources.Payment;
 import org.apache.http.HttpStatus;
 
 import static com.mercadolibre.Constants.ACCESS_TOKEN;
+import static com.mercadolibre.Constants.STATUS_BAD_REQUEST;
 
 public class PagoService extends Service {
 
@@ -26,7 +27,7 @@ public class PagoService extends Service {
         Errors errors = new Errors();
         pagoValidator.validate(pago, errors);
         if (errors.hasErrors()) {
-            throw new MPException(buildErrorMessage(errors), null, HttpStatus.SC_BAD_REQUEST);
+            throw buildPracticoException(errors, HttpStatus.SC_BAD_REQUEST, STATUS_BAD_REQUEST);
         }
 
         Payment payment = paymentConverter.convert(pago);

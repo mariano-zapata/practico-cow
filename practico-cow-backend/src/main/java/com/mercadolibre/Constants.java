@@ -69,6 +69,8 @@ public class Constants {
 
     public static String STATUS_ERROR = "ERROR";
 
+    public static String STATUS_BAD_REQUEST = "BAD REQUEST";
+
     // Headers
     public static String HEADER_CONTENT_TYPE = "Content-Type";
 
