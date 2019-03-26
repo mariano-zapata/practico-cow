@@ -4,6 +4,7 @@ import com.mercadolibre.business.converter.PreferenceConverter;
 import com.mercadolibre.business.validator.Errors;
 import com.mercadolibre.business.validator.PreferenciaValidator;
 import com.mercadolibre.model.Preferencia;
+import com.mercadolibre.util.PracticoException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Preference;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class PreferenciaServiceTest {
         verify(preference).save();
     }
 
-    @Test(expected = MPException.class)
+    @Test(expected = PracticoException.class)
     public void testSaveValidationError() throws MPException {
         Preferencia preferencia = mock(Preferencia.class);
 
@@ -54,5 +55,19 @@ public class PreferenciaServiceTest {
         service.save(preferencia);
         verify(preferenciaValidator).validate(eq(preferencia), any(Errors.class));
         verifyZeroInteractions(preferenceConverter);
+    }
+
+    @Test(expected = MPException.class)
+    public void testSavePreferenceError() throws MPException {
+        Preferencia preferencia = mock(Preferencia.class);
+        Preference preference = mock(Preference.class);
+
+        when(preferenceConverter.convert(preferencia)).thenReturn(preference);
+        when(preference.save()).thenThrow(MPException.class);
+
+        service.save(preferencia);
+        verify(preferenciaValidator).validate(eq(preferencia), any(Errors.class));
+        verify(preferenceConverter).convert(preferencia);
+        verify(preference).save();
     }
 }

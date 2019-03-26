@@ -4,6 +4,7 @@ import com.mercadolibre.business.converter.PaymentConverter;
 import com.mercadolibre.business.validator.Errors;
 import com.mercadolibre.business.validator.PagoValidator;
 import com.mercadolibre.model.Pago;
+import com.mercadolibre.util.PracticoException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Payment;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class PagoServiceTest {
     private PagoService service;
 
     @Test
-    public void testSaveV1Exito() throws MPException {
+    public void testSaveExito() throws MPException {
         Pago pago = mock(Pago.class);
         Payment payment = mock(Payment.class);
 
@@ -41,8 +42,8 @@ public class PagoServiceTest {
         verify(payment).save();
     }
 
-    @Test(expected = MPException.class)
-    public void testSaveV1ValidationError() throws MPException {
+    @Test(expected = PracticoException.class)
+    public void testSaveValidationError() throws MPException {
         Pago pago = mock(Pago.class);
 
         doAnswer(invocation -> {
@@ -54,5 +55,19 @@ public class PagoServiceTest {
         service.save(pago);
         verify(pagoValidator).validate(eq(pago), any(Errors.class));
         verifyZeroInteractions(paymentConverter);
+    }
+
+    @Test(expected = MPException.class)
+    public void testSavePaymentError() throws MPException {
+        Pago pago = mock(Pago.class);
+        Payment payment = mock(Payment.class);
+
+        when(paymentConverter.convert(pago)).thenReturn(payment);
+        when(payment.save()).thenThrow(MPException.class);
+
+        service.save(pago);
+        verify(pagoValidator).validate(eq(pago), any(Errors.class));
+        verify(paymentConverter).convert(pago);
+        verify(payment).save();
     }
 }
