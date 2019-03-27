@@ -23,6 +23,8 @@ import static com.mercadolibre.Constants.*;
 
 public class PreferenciaRoute {
 
+    private static PreferenciaService preferenciaService;
+
     public static Object crearPreferencia(Request request, Response response) throws MPException {
         MercadoPago.SDK.setClientId(CLIENT_ID);
         MercadoPago.SDK.setClientSecret(CLIENT_SECRET);
@@ -46,13 +48,19 @@ public class PreferenciaRoute {
     public static Object crearPreferenciaPost(Request request, Response response) throws MPException {
         Preferencia preferencia = RequestHandler.handle(request, Preferencia.class);
 
-        PreferenciaService preferenciaService = new PreferenciaService();
-        Preference preference = preferenciaService.save(preferencia);
+        Preference preference = getPreferenciaService().save(preferencia);
 
         response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         response.status(HttpStatus.SC_OK);
         String responseMessage = String.format(PREFERENCIA_GENERADA, preference.getInitPoint());
         RestEndpointResponse endpointResponse = new RestEndpointResponse(STATUS_OK, responseMessage);
         return endpointResponse;
+    }
+
+    private static PreferenciaService getPreferenciaService() {
+        if (preferenciaService == null) {
+            preferenciaService = new PreferenciaService();
+        }
+        return preferenciaService;
     }
 }
