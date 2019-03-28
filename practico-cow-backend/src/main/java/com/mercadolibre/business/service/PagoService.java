@@ -4,12 +4,10 @@ import com.mercadolibre.business.converter.PaymentConverter;
 import com.mercadolibre.business.validator.Errors;
 import com.mercadolibre.business.validator.PagoValidator;
 import com.mercadolibre.model.Pago;
-import com.mercadopago.MercadoPago;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Payment;
 import org.apache.http.HttpStatus;
 
-import static com.mercadolibre.Constants.ACCESS_TOKEN;
 import static com.mercadolibre.Constants.STATUS_BAD_REQUEST;
 
 public class PagoService extends Service {
@@ -31,7 +29,6 @@ public class PagoService extends Service {
         }
 
         Payment payment = paymentConverter.convert(pago);
-        MercadoPago.SDK.setAccessToken(ACCESS_TOKEN);
         return payment.save();
     }
 }

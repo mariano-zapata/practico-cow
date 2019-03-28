@@ -4,7 +4,6 @@ import com.google.common.net.MediaType;
 import com.mercadolibre.business.service.PagoService;
 import com.mercadolibre.model.Pago;
 import com.mercadolibre.util.VelocityUtil;
-import com.mercadopago.MercadoPago;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Payment;
 import com.mercadopago.resources.Preference;
@@ -73,10 +72,6 @@ public class PagoRoute {
     }
 
     public static Object getEstadoPagoView(Request request, Response response) throws MPException {
-        MercadoPago.SDK.setClientId(CLIENT_ID);
-        MercadoPago.SDK.setClientSecret(CLIENT_SECRET);
-        MercadoPago.SDK.setAccessToken(ACCESS_TOKEN);
-
         Item item = new Item();
         item.setId("1234").setTitle("Product").setQuantity(1).setCurrencyId("ARS").setUnitPrice(95.7F);
 

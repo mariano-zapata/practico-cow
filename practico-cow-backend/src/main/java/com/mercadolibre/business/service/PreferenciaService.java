@@ -4,14 +4,11 @@ import com.mercadolibre.business.converter.PreferenceConverter;
 import com.mercadolibre.business.validator.Errors;
 import com.mercadolibre.business.validator.PreferenciaValidator;
 import com.mercadolibre.model.Preferencia;
-import com.mercadopago.MercadoPago;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Preference;
 import org.apache.http.HttpStatus;
 
 import static com.mercadolibre.Constants.STATUS_BAD_REQUEST;
-import static com.mercadolibre.Constants.CLIENT_ID;
-import static com.mercadolibre.Constants.CLIENT_SECRET;
 
 public class PreferenciaService extends Service {
 
@@ -32,8 +29,6 @@ public class PreferenciaService extends Service {
         }
 
         Preference preference = preferenceConverter.convert(preferencia);
-        MercadoPago.SDK.setClientId(CLIENT_ID);
-        MercadoPago.SDK.setClientSecret(CLIENT_SECRET);
         return preference.save();
     }
 }

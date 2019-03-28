@@ -5,7 +5,6 @@ import com.mercadolibre.business.service.PreferenciaService;
 import com.mercadolibre.model.Preferencia;
 import com.mercadolibre.util.RequestHandler;
 import com.mercadolibre.util.VelocityUtil;
-import com.mercadopago.MercadoPago;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Preference;
 import com.mercadopago.resources.datastructures.preference.Address;
@@ -26,9 +25,6 @@ public class PreferenciaRoute {
     private static PreferenciaService preferenciaService;
 
     public static Object crearPreferencia(Request request, Response response) throws MPException {
-        MercadoPago.SDK.setClientId(CLIENT_ID);
-        MercadoPago.SDK.setClientSecret(CLIENT_SECRET);
-
         Item item = new Item();
         item.setId("1234").setTitle("Product").setQuantity(1).setCurrencyId("ARS").setUnitPrice(95.7F);
 
