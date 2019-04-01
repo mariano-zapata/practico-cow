@@ -27,7 +27,7 @@ public class PreferenciaServiceTest {
     private PreferenceConverter preferenceConverter;
 
     @InjectMocks
-    private PreferenciaService service;
+    private PreferenciaService service = PreferenciaService.getInstance();
 
     @Test
     public void testSaveExito() throws MPException {

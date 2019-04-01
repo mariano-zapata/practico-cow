@@ -22,8 +22,6 @@ import static com.mercadolibre.Constants.*;
 
 public class PreferenciaRoute {
 
-    private static PreferenciaService preferenciaService;
-
     public static Object crearPreferencia(Request request, Response response) throws MPException {
         Item item = new Item();
         item.setId("1234").setTitle("Product").setQuantity(1).setCurrencyId("ARS").setUnitPrice(95.7F);
@@ -44,19 +42,12 @@ public class PreferenciaRoute {
     public static Object crearPreferenciaPost(Request request, Response response) throws MPException {
         Preferencia preferencia = RequestHandler.handle(request, Preferencia.class);
 
-        Preference preference = getPreferenciaService().save(preferencia);
+        Preference preference = PreferenciaService.getInstance().save(preferencia);
 
         response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         response.status(HttpStatus.SC_OK);
         String responseMessage = String.format(PREFERENCIA_GENERADA, preference.getInitPoint());
         RestEndpointResponse endpointResponse = new RestEndpointResponse(STATUS_OK, responseMessage);
         return endpointResponse;
-    }
-
-    private static PreferenciaService getPreferenciaService() {
-        if (preferenciaService == null) {
-            preferenciaService = new PreferenciaService();
-        }
-        return preferenciaService;
     }
 }

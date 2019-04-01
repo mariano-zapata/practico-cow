@@ -28,8 +28,7 @@ public class PagoRoute {
                 .setIssuerId(request.queryParams("issuer_id"))
                 .setEmailPagador("test_user_19653727@testuser.com");
 
-        PagoService pagoService = new PagoService();
-        Payment payment = pagoService.save(pago);
+        Payment payment = PagoService.getInstance().save(pago);
 
         response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         response.status(HttpStatus.SC_OK);
@@ -44,8 +43,7 @@ public class PagoRoute {
                 .setCuotas(Integer.valueOf(request.queryParams("installments")))
                 .setMetodoPagoId(request.queryParams("paymentMethodId")).setEmailPagador(request.queryParams("email"));
 
-        PagoService pagoService = new PagoService();
-        Payment payment = pagoService.save(pago);
+        Payment payment = PagoService.getInstance().save(pago);
 
         response.header(HEADER_CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         response.status(HttpStatus.SC_OK);

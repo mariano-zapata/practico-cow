@@ -10,15 +10,27 @@ import org.apache.http.HttpStatus;
 
 import static com.mercadolibre.Constants.STATUS_BAD_REQUEST;
 
-public class PreferenciaService extends Service {
+public final class PreferenciaService extends Service {
 
-    private PreferenciaValidator preferenciaValidator;
+    private static final PreferenciaService INSTANCE = new PreferenciaService();
 
-    private PreferenceConverter preferenceConverter;
+    private PreferenciaValidator preferenciaValidator = new PreferenciaValidator();
 
-    public PreferenciaService() {
-        preferenciaValidator = new PreferenciaValidator();
-        preferenceConverter = new PreferenceConverter();
+    private PreferenceConverter preferenceConverter = new PreferenceConverter();
+
+    private PreferenciaService() {
+        if (INSTANCE != null) {
+            throw new IllegalStateException("PreferenciaService singleton already created");
+        }
+    }
+
+    public static PreferenciaService getInstance() {
+        return  INSTANCE;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException("Cannot clone PreferenciaService class");
     }
 
     public Preference save(Preferencia preferencia) throws MPException {

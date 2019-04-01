@@ -27,7 +27,7 @@ public class PagoServiceTest {
     private PaymentConverter paymentConverter;
 
     @InjectMocks
-    private PagoService service;
+    private PagoService service = PagoService.getInstance();
 
     @Test
     public void testSaveExito() throws MPException {

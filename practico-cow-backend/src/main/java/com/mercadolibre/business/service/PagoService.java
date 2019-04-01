@@ -10,15 +10,27 @@ import org.apache.http.HttpStatus;
 
 import static com.mercadolibre.Constants.STATUS_BAD_REQUEST;
 
-public class PagoService extends Service {
+public final class PagoService extends Service {
 
-    private PagoValidator pagoValidator;
+    private static final PagoService INSTANCE = new PagoService();
 
-    private PaymentConverter paymentConverter;
+    private PagoValidator pagoValidator = new PagoValidator();
 
-    public PagoService() {
-        pagoValidator = new PagoValidator();
-        paymentConverter = new PaymentConverter();
+    private PaymentConverter paymentConverter = new PaymentConverter();
+
+    private PagoService() {
+        if (INSTANCE != null) {
+            throw new IllegalStateException("PagoService singleton already created");
+        }
+    }
+
+    public static PagoService getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException("Cannot clone PagoService class");
     }
 
     public Payment save(Pago pago) throws MPException {
